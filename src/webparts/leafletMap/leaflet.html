@@ -28,22 +28,41 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 <script>
-  // Map initialization
-  var map = L.map("map").setView([51.505, -0.09], 13);
-  
-  // // osm layer
-  // var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  //   attribution:
-  //     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  // });
 
-  // osm.addTo(map);
-
-  // add google streets tile layer
-  googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
     maxZoom: 20,
     subdomains:['mt0','mt1','mt2','mt3']
 });
+    var lat = 51.505;
+    var lon = -0.09;
+    var alt = 481;
+ 
+    var markerClusters; 
+    var popup = L.popup();
+
+
+
+var map = L.map('map').setView([lat, lon], 13);
+
+
+markerClusters = L.markerClusterGroup; 
 
 googleStreets.addTo(map)
+map.on('click', onMapClick);
+
+
+
+function onMapClick(e) {
+  popup
+      .setLatLng(e.latlng)
+      .setContent("You clicked the map at " + e.latlng.toString())
+      .openOn(map);
+  var marker = L.marker(e.latlng).addTo(map)
+}
+
+$(document).ready(function(){
+  initMap();
+});
+
+
 </script>
